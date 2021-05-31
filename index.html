@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+        <title>gaymostron</title>
+        <style >
+            #contenedor{
+                background-image: url('https://wallpapers.com/images/high/iron-throne-from-game-of-thrones-l3h0rq17epk4v6r2.jpg');
+                background-size: cover;
+                background-color: black;
+                }
+            #gameofthrones{
+                
+                background-image: url('http://www.pngall.com/wp-content/uploads/2016/05/Game-of-Thrones-Logo-Free-Download-PNG.png');
+                background-size:cover;
+                
+            }
+            
+            #stark, #targaryen, #lannister, #baratheon, #howsescard {
+                background-size:auto;
+                background-color: rgba(41, 37, 37, 0.4);
+                border-style:groove;
+                border-width: 10px;
+                border-color: rgb(157, 162, 167);
+                background-image:cover;
+            }
+            #bodyapp{ font-family:Verdana, Geneva, Tahoma, sans-serif }
+
+            
+        </style>
+    </head>
+    <body>
+        <div id="contenedor" class="container p-3" style="min-height: 600px; max-width: 1150px"> 
+            <div id="gameofthrones" class="mt-5" style="min-height: 200px;"></div><!--TITULO GIGANTE-->
+            <!--<div id="barradenavegacion" class="row">
+                <nav class="col-3"aria-label="Page navigation example">
+                    <ul class="pagination">
+                        <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+                        <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                    </ul>
+                </nav>
+                <ul class="col-6 nav nav-pills nav-justified">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Active</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Much longer nav link</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Link</a>
+                    </li>
+                </ul>
+                <nav class="col-3 navbar navbar-light bg-light">
+                    <div class="container-fluid">
+                        <form class="d-flex">
+                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                        <button class="btn btn-outline-success" type="submit">Search</button>
+                        </form>
+                    </div>
+                </nav>
+            </div> Barra de navegacion-->
+            <div id="bodyapp" class="row">
+                <div class="col-12">
+                    <div id="rowhouses" class="p-5 row">
+                        <img id="stark" class="col-3 m-1 ms-2 p-0"src="https://addons-media.operacdn.com/media/CACHE/images/themes/35/40935/1.0-rev1/images/75bd608a-c8fc-45ce-9ed5-5cb88dc9f56b/826b37a1142bacee462f9e558592fd2a.jpg" alt=""style="height: 235px;width:250px;">
+                        <img id="targaryen" class="col-3 m-1 p-0"src="https://hips.hearstapps.com/digitalspyuk.cdnds.net/16/25/1466688518-sigil-of-house-targaryen.jpg" alt=""style="height: 235px;width:250px;">
+                        <img id="lannister" class="col-3 m-1 p-0"src="https://www.itl.cat/pngfile/big/223-2235396_hear-me-roar-house-lannister.jpg" alt=""style="height: 235px;width:250px;">
+                        <img id="baratheon" class="col-3 m-1 p-0"src="https://wallpaperaccess.com/full/803768.jpg" alt=""style="height: 235px;width:250px;">
+                    </div>
+                    <div id="detailscard" class="row m-2 p-3">
+                        <div id="howsescard" class="offset-2 col-8 p-3" style="height: 400px;">
+                            <p class="houses m-3 text-light h4">Name:   <span id="names" class="text-white fw-bold"></span> </p>
+                            <p class="houses m-3 text-light h4">Words:   <span id="words" class="text-white fw-bold"></span> </p>
+                            <ul id="titles" class="houses h4 m-3 p-0 text-light">Titles: </ul>
+                        </div>
+                    </div>
+                </div>
+            </div><!--Cuerpo de la app-->
+            <div id="footer" class="row bg-dark text-light p-3" style="height: 60px;">
+                <p>Desarrollado por Syrio Forel</p>
+            </div> <!--footer-->
+        </div>
+        <script>
+            $(document).ready(function(){ //EN ESTA PARTE TENGO QUE USAR EL TRAVERSING 
+                let house = {};
+
+                $('#stark').on('click',function(event){//estos son el de la iz o la der-----cambiarle el color a sus siblings
+                    event.preventDefault();
+
+                    $.get(`https://anapioficeandfire.com/api/houses/362`,function(res) {
+                        house = res;
+                        console.log(house);
+                        $('#names').html(house.name);
+                        $('#words').html(house.words);
+                        $('#titles').empty();
+                        $('#titles').html('Titles: ');
+                        for(let i=0; i < house.titles.length; i++){
+                            
+                            $('#titles').append(`<li class="m-3 text-white fw-bold">${house.titles[i]}</li>`);
+                        }
+                    });
+                });// del stark.click
+
+                $('#targaryen').on('click',function(event){//estos son el de la iz o la der-----cambiarle el color a sus siblings
+                    event.preventDefault();
+                    event.stopPropagation();
+
+                    $.get(`https://anapioficeandfire.com/api/houses/378`,function(res) {
+                        house = res;
+                        console.log(house);
+                        $('#names').html(house.name);
+                        $('#words').html(house.words);
+                        $('#titles').empty();
+                        $('#titles').html('Titles: ');
+                        for(let i=0; i < house.titles.length; i++){
+                            
+                            $('#titles').append(`<li class="m-3 text-white fw-bold">${house.titles[i]}</li>`);
+                            
+                        }
+                    });
+                });// del targaryen.click
+
+                $('#lannister').on('click',function(event){//estos son el de la iz o la der-----cambiarle el color a sus siblings
+                    event.preventDefault();
+
+                    $.get(`https://anapioficeandfire.com/api/houses/229`,function(res) {
+                        house = res;
+                        console.log(house);
+                        $('#names').html(house.name);
+                        $('#words').html(house.words);
+                        $('#titles').empty();
+                        $('#titles').html('Titles: ');
+                        for(let i=0; i < house.titles.length; i++){
+                            
+                            $('#titles').append(`<li class="m-3 text-white fw-bold">${house.titles[i]}</li>`);
+                        }
+                    });
+                });// del lannister.click
+
+                $('#baratheon').on('click',function(event){//estos son el de la iz o la der-----cambiarle el color a sus siblings
+                    event.preventDefault();
+                    $.get(`https://anapioficeandfire.com/api/houses/17`,function(res) {
+                        house = res;
+                        console.log(house);
+                        $('#names').html(house.name);
+                        $('#words').html(house.words);
+                        $('#titles').empty();
+                        $('#titles').html('Titles: ');
+                        for(let i=0; i < house.titles.length; i++){
+                            
+                            $('#titles').append(`<li class="m-3 text-white fw-bold">${house.titles[i]}</li>`);
+                        }
+                    });
+                });// del baratheon.click
+
+        return false;// don't forget to return false so the page doesn't refresh
+            });//del document ready
+            
+    
+        </script>
+    </body>
+</html>
